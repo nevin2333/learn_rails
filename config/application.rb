@@ -14,5 +14,11 @@ module App
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    console do
+      # 这个块只在运行控制台时运行
+      # 因此可以安全引入 pry
+      require "pry"
+      config.console = Pry
+    end
   end
 end
