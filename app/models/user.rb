@@ -12,15 +12,15 @@
 #
 
 class User < ApplicationRecord
+  has_secure_password
   # log_in
   def self.sign_in(params)
     user = nil
     response = Response.rescue do |_res|
       username = params[:username]
       password = params[:password]
-      user = User.where(username: username).first
-      _res.raise_error('没有这个账号') if user.blank?
-      _res.raise_error('密码不对') if user.password != password
+      user = User.find_by_username(username).authenticate(password)
+      _res.raise_error('账号和密码不对') if user.blank?
     end
     [response, user]
   end
