@@ -62,3 +62,8 @@ gem 'bcrypt'
 group :development, :test do
   gem "rspec-rails"
 end
+
+gem 'awesome_print', '~> 1.8'
+
+gem 'graphql'
+gem 'graphiql-rails', group: :development
