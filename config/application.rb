@@ -20,5 +20,11 @@ module App
       require "pry"
       config.console = Pry
     end
+
+    config.autoload_paths << Rails.root.join('app/graphql')
+    config.autoload_paths << Rails.root.join('app/graphql/types')
+
   end
 end
+
+
