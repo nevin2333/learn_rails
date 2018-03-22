@@ -67,3 +67,5 @@ gem 'awesome_print', '~> 1.8'
 
 gem 'graphql'
 gem 'graphiql-rails', group: :development
+
+gem 'kaminari', '~> 1.1', '>= 1.1.1'
