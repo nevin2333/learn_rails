@@ -40,11 +40,16 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    annotate (2.7.2)
+      activerecord (>= 3.2, < 6.0)
+      rake (>= 10.4, < 13.0)
     arel (8.0.0)
     awesome_print (1.8.0)
     bcrypt (3.1.11)
     bindex (0.5.0)
     builder (3.2.3)
+    bulk_insert (1.6.0)
+      activerecord (>= 4.1.0)
     byebug (9.1.0)
     capybara (2.15.1)
       addressable
@@ -218,8 +223,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate (~> 2.7, >= 2.7.2)
   awesome_print (~> 1.8)
   bcrypt
+  bulk_insert
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)

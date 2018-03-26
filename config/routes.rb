@@ -15,5 +15,7 @@ Rails.application.routes.draw do
     
     resources :heroes
 
+    resources :tasks
+
   end
 end

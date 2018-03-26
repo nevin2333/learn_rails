@@ -69,3 +69,7 @@ gem 'graphql'
 gem 'graphiql-rails', group: :development
 
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
+
+gem 'bulk_insert'
+
+gem 'annotate', '~> 2.7', '>= 2.7.2'
