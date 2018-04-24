@@ -73,3 +73,7 @@ gem 'kaminari', '~> 1.1', '>= 1.1.1'
 gem 'bulk_insert'
 
 gem 'annotate', '~> 2.7', '>= 2.7.2'
+
+gem 'mygem', path: '~/RubymineProjects/mygem'
+
+gem 'migration_comments', '0.4.1'
