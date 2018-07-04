@@ -43,8 +43,22 @@ class Hero < ApplicationRecord
     end
 
     def update_by_params params
-      binding.pry
+
     end
+
+    def two_sum(nums, target)
+      nums.each_with_index do |a, index|
+        b = target - a
+        if nums.rindex(b) != nil && nums.rindex(b) != index
+          return [index, nums.rindex(b)]
+        end
+      end
+    end
+
+    def rob(nums = [1,2,3,1])
+
+    end
+
   end
 
 end
