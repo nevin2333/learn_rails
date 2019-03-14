@@ -10,13 +10,62 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326032611) do
+ActiveRecord::Schema.define(version: 20190314075756) do
 
   create_table "heros", force: :cascade do |t|
     t.string "name"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "ht_locations", force: :cascade do |t|
+    t.integer "pid", comment: "父id"
+    t.string "path", comment: "路径"
+    t.integer "level", comment: "层级"
+    t.string "name", comment: "名称"
+    t.string "name_en", comment: "英文名称"
+    t.string "code", comment: "编码"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name", comment: "名称"
+    t.string "name_en", comment: "英文名称"
+    t.string "description", comment: "描述"
+    t.string "link", comment: "外部链接"
+    t.string "status", default: "checking", comment: "状态"
+    t.string "art_no", comment: "货号"
+    t.integer "product_category_id", comment: "商品分类id"
+    t.integer "product_measurement_id", comment: "计量单位id"
+    t.integer "brand_id", comment: "品牌id"
+    t.integer "shop_id", comment: "店铺id"
+    t.integer "pid", comment: "父级商品id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "shops", force: :cascade do |t|
+    t.string "name", comment: "店铺名称"
+    t.integer "user_id", comment: "用户id"
+    t.integer "qq_number", comment: "客服QQ"
+    t.string "phone", comment: "客服电话"
+    t.string "logo", comment: "店铺Logo"
+    t.string "status", comment: "状态"
+    t.integer "state_id", comment: "洲"
+    t.integer "country_id", comment: "国家"
+    t.integer "province_id", comment: "省"
+    t.integer "city_id", comment: "市"
+    t.integer "system_language_id", comment: "系统语言id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "system_languages", force: :cascade do |t|
+    t.string "name", comment: "名称"
+    t.string "name_en", comment: "英文名称"
+    t.string "code", comment: "编码"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -45,6 +94,7 @@ ActiveRecord::Schema.define(version: 20180326032611) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.integer "lock_version"
   end
 
 end

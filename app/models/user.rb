@@ -9,6 +9,7 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  password_digest :string
+#  lock_version    :integer
 #
 
 class User < ApplicationRecord

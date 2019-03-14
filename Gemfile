@@ -65,13 +65,12 @@ end
 
 gem 'awesome_print', '~> 1.8'
 
-gem 'graphql'
-gem 'graphiql-rails', group: :development
-
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
 
 gem 'bulk_insert'
 
-gem 'annotate', '~> 2.7', '>= 2.7.2'
+group :development do
+  gem 'annotate', '~> 2.7', '>= 2.7.2'
 
-gem 'migration_comments', '0.4.1'
+  gem 'migration_comments', '0.4.1'
+end
