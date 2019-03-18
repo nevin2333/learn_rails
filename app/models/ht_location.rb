@@ -13,10 +13,16 @@
 
 class HtLocation < ApplicationRecord
   # log_in
-  def self.sign_in(params)
-    response = Response.rescue do |_res|
+  include BaseModelConcern
+
+  def self.query_by_params(params)
+    models = nil
+    response = Response.rescue do |res|
+      page, per, search_param = params[:page] || 1, params[:per] || 5, params[:search]
+      search_param = {} if search_param.blank?
+      models = HtLocation.search_by_params(search_param).page(page).per(per)
     end
-    response
+    return response, models
   end
 
   def self.execute

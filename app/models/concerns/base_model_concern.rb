@@ -2,6 +2,7 @@ module BaseModelConcern
   extend ActiveSupport::Concern
   
   module ClassMethods
+
     def search_by_params(options = {})
       result = self.all
       if options.present?
@@ -18,8 +19,6 @@ module BaseModelConcern
                      else
                        result.order(value)
                      end
-          elsif key == :order_max || key.to_s == 'order_max'
-            result = result.order(value)
           elsif key.to_s.include?('like_')
             query = ''
             query_value = {}
@@ -39,6 +38,7 @@ module BaseModelConcern
                 result = result.where("#{attr_key} like ?", "%#{value}%")
               end
             else
+
               if value.is_a?(Array)
                 value.each_with_index do |v, i|
                   query += "#{self.name.tableize}.#{attr_key} like :value#{i} "
@@ -77,11 +77,7 @@ module BaseModelConcern
             attr_keys = key.to_s.split('&or&')
             if value.present?
               # query_string = ''
-              query_hash = if value.class == Fixnum
-                             {value: "#{value.to_s}"}
-                           else
-                             {value: "%#{value.to_s.upcase}%"}
-                           end
+              query_hash = {value: "%#{value.upcase}%"}
               query_string = attr_keys.map.with_index do |attr_key, i|
                 convert_key = if attr_key.include?('.')
                                 attr_key
@@ -130,23 +126,10 @@ module BaseModelConcern
               end
               result = result.where(query_string, query_hash)
             end
-
-            # between_and 搜索类似开学日期这样的字段，因为在school_course_infos和professions里面都保存了。
-            # 而且按照正常逻辑professions里面保存了，school_course_infos里面不应该还有数据，但是老数据存在这样的情况
-            # 实例 根据开学日期搜索  'between_school_course_infos_and_professions.school_start_date' 参数是'2017-01-01 2017-12-12'
-          elsif key.to_s.include?('between_') && key.to_s.include?('_and_')
-            # 拼接参数
-            values = value.split(' ')
-            key_array = key.split('.')
-            search_column = key_array&.last
-            search_tables = key_array&.first&.remove('between_').split('_and_').map { |x| "#{x}.#{search_column} between :first and :last"}.join(' OR ')
-
-            result = result.where("#{search_tables}", first: values.first, last: values.last)
-
             #between
           elsif key.to_s.include?('between_')
             attr_key = key.to_s.gsub('between_', '')
-            front, back = value.split(' ')
+            front, back = value.split(',')
             # 这里需要兼容只填写了一个日期的情况
             if (front =~ /^\d{4}\/\d{1,2}\/\d{1,2}$/ || front =~ /^\d{4}-\d{2}-\d{2}$/) && value[-1].blank?
               convert_key = if attr_key.include?('.')
@@ -172,14 +155,19 @@ module BaseModelConcern
                 back = back.to_date.end_of_day
               end
               if attr_key.include?('.')
-                result = result.between_fields("#{attr_key}", front, back) if value.present? && value.split(' ').length == 2
+                result = result.between_fields("#{attr_key}", front, back) if value.present? && value.split(',').length == 2
               else
-                result = result.between_fields("#{self.name.tableize}.#{attr_key}", front, back) if self.attribute_names.include?(attr_key) && value.present? && value.split(' ').length == 2
+                result = result.between_fields("#{self.name.tableize}.#{attr_key}", front, back) if self.attribute_names.include?(attr_key) && value.present? && value.split(',').length == 2
               end
             end
           elsif key.to_s.include?('not_')
             attr_key = key.to_s.gsub('not_', '')
-            result = result.where.not("#{attr_key} = ?", "#{value}")
+            if value.is_a?(Array)
+              result = result.where.not("#{attr_key}" => value)
+            else
+              result = result.where.not("#{attr_key} = ?", "#{value}")
+            end
+            # result = result.where.not("#{attr_key} = ?", "#{value}")
           else
             key = key.to_s.remove('between_').remove('like_').remove('not_')
             if key.include?('.')
@@ -192,6 +180,7 @@ module BaseModelConcern
       end
       result
     end
+
   end
 
 end
