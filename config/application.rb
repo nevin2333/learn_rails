@@ -21,8 +21,8 @@ module App
       config.console = Pry
     end
 
-    config.autoload_paths << Rails.root.join('app/graphql')
-    config.autoload_paths << Rails.root.join('app/graphql/types')
+    # belongs_to value must be required in 5.1
+    config.active_record.belongs_to_required_by_default = false
 
   end
 end

@@ -15,6 +15,9 @@
 
 class ProductReview < ApplicationRecord
 
+  belongs_to :product
+  belongs_to :member
+
   # log_in
   def self.sign_in(params)
     response = Response.rescue do |_res|

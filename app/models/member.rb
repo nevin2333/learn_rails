@@ -13,6 +13,13 @@
 #
 
 class Member < ApplicationRecord
+
+  # 评论
+  has_many :product_reviews
+
+  # 收藏
+  has_and_belongs_to_many :products
+
   # log_in
   def self.sign_in(params)
     response = Response.rescue do |_res|

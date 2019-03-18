@@ -20,6 +20,13 @@
 #
 
 class Product < ApplicationRecord
+
+  belongs_to :product_label
+  belongs_to :brand
+  belongs_to :product_measurement_unit
+  has_many :product_reviews
+  has_and_belongs_to_many :members
+
   # log_in
   def self.sign_in(params)
     response = Response.rescue do |_res|
