@@ -10,10 +10,17 @@
 #  updated_at      :datetime         not null
 #  password_digest :string
 #  lock_version    :integer
+#  site_id         :integer                                # 站点id
+#  foreign_user_id :integer                                # 外部系统用户id
 #
 
 class User < ApplicationRecord
   has_secure_password
+
+  has_many :members
+  has_many :shops
+  belongs_to :site
+
   # log_in
   def self.sign_in(params)
     user = nil

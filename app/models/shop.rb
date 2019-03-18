@@ -20,6 +20,9 @@
 #
 
 class Shop < ApplicationRecord
+
+  has_many :products
+
   # log_in
   def self.sign_in(params)
     response = Response.rescue do |_res|
