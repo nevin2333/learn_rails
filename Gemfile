@@ -57,6 +57,10 @@ gem 'pry-byebug'
 
 gem 'redis'
 
+gem 'redis-namespace'
+
+gem 'settingslogic', '~> 2.0', '>= 2.0.9'
+
 gem 'bcrypt'
 
 group :development, :test do

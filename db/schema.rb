@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190318085342) do
+ActiveRecord::Schema.define(version: 20190319101834) do
 
   create_table "brands", force: :cascade do |t|
     t.string "name", comment: "名称"
@@ -309,7 +309,6 @@ ActiveRecord::Schema.define(version: 20190318085342) do
   create_table "shops", force: :cascade do |t|
     t.string "name", comment: "店铺名称"
     t.integer "user_id", comment: "用户id"
-    t.integer "qq_number", comment: "客服QQ"
     t.string "phone", comment: "客服电话"
     t.string "logo", comment: "店铺Logo"
     t.string "status", comment: "状态"
@@ -321,6 +320,7 @@ ActiveRecord::Schema.define(version: 20190318085342) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "qq_number", comment: "qq号码"
     t.index ["city_id"], name: "index_shops_on_city_id"
     t.index ["country_id"], name: "index_shops_on_country_id"
     t.index ["province_id"], name: "index_shops_on_province_id"

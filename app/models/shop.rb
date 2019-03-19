@@ -5,7 +5,6 @@
 #  id                 :integer          not null, primary key
 #  name               :string                                 # 店铺名称
 #  user_id            :integer                                # 用户id
-#  qq_number          :integer                                # 客服QQ
 #  phone              :string                                 # 客服电话
 #  logo               :string                                 # 店铺Logo
 #  status             :string                                 # 状态
@@ -17,6 +16,7 @@
 #  deleted_at         :datetime
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  qq_number          :string                                 # qq号码
 #
 
 class Shop < ApplicationRecord

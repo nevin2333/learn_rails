@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
       user = User.new.from_json(JSON.parse(user_string).to_json)
       params[:user] = user
     end
+
     if params[:user_id].present?
       params[:user] = User.find_by_id(:user_id)
     end

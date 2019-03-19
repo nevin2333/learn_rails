@@ -1,0 +1,22 @@
+# encoding: UTF-8
+
+defaults: &defaults
+  status: open
+  host: localhost
+  port: 6379
+  db: 2
+  username: username
+  password:
+  name_space: atyun-product
+
+development: &development
+  <<: *defaults
+  password: Fy958e5mmyb7Ta4H
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  host: redis
+  password: Fy958e5mmyb7Ta4H
