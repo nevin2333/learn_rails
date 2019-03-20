@@ -1,0 +1,41 @@
+# encoding: UTF-8
+
+defaults: &defaults
+  status: open # open | close
+
+  storage: aliyun
+
+  aliyun:
+    status: open # open | close
+    access_id: 0h54pOcdaFQG8Tei
+    access_key: 3OqDH1wH7kF0iIWU0KyGxN4amQl31c
+    bucket: atyun-api-sit
+    host: https://atyun-api-sit.oss-cn-shanghai.aliyuncs.com
+    internal: true
+
+  qiniu:
+    status: open # open | close
+    access_key: BHQUXfiuUObUzapQ_YH6YYKOiiJCA1XlEvsIkyjz
+    secret_key: PtgbCnXkRl40AGh63r69GHRzm_y1NGSuEx8V50xW
+    bucket: atyun-api-sit
+    bucket_domain: owipc74bm.bkt.clouddn.com
+
+development: &development
+  <<: *defaults
+  aliyun:
+        status: open # open | close
+        access_id: 0h54pOcdaFQG8Tei
+        access_key: 3OqDH1wH7kF0iIWU0KyGxN4amQl31c
+        bucket: atyun-api-sit
+        host: http://atyun-api-sit.oss-cn-shanghai.aliyuncs.com
+        internal: false
+
+test: &test
+  <<: *defaults
+
+  status: close # open | close
+
+production: &production
+  <<: *defaults
+
+  status: open # open | close

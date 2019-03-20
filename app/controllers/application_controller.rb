@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
 
   prepend_before_action :get_user
 
+  before_action :doorkeeper_authorize!
+
   def get_user
 
     user_session_key = params[:user_session_key]
