@@ -60,7 +60,7 @@ class ProductLabel < ApplicationRecord
   def self.delete_by_params(params)
     model = nil
     response = Response.rescue do |res|
-      model_id = params[:model_id]
+      model_id = params[:id]
       res.raise_error("参数缺失") if model_id.blank?
       model = ProductLabel.find(model_id)
       res.raise_data_miss_error("date doesn't exist") if model.blank?

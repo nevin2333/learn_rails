@@ -33,7 +33,8 @@ class Shop < ApplicationRecord
     model = nil
     response = Response.rescue do |res|
       user = params[:user]
-      create_params = params.require(:create).permit!
+      create_params = params.require(:create).permit(:name, :user_id, :phone, :logo, :status, :state_id, :country_id,
+                                                     :province_id, :city_id, :system_language_id, :qq_number)
       create_params[:user_id] ||= user&.id
       model = Shop.new(create_params)
       model.save!
@@ -51,7 +52,11 @@ class Shop < ApplicationRecord
       model = Shop.find(model_id)
       res.raise_data_miss_error("修改的数据不存在") if model.blank?
 
-      update_params = params.require(:update).permit!
+      update_params = params.require(:update).permit(:name, :user_id, :phone, :logo, :status, :state_id, :country_id,
+                                                     :province_id, :city_id, :system_language_id, :qq_number)
+
+      update_params.delete(:logo) if update_params[:logo].class.name == 'String'
+
       model.update_attributes!(update_params)
     end
     return response, model

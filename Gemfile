@@ -82,8 +82,9 @@ end
 gem 'rubyzip'
 
 gem 'mini_magick'
-gem 'carrierwave-qiniu', git: 'ssh://git@repo.scm.atyun.com.cn:20322/atyun-gems/carrierwave-qiniu.git', branch: 'feature/atyun-20151223-copy'
+
+gem 'carrierwave'
+
 gem 'carrierwave-aliyun'
-gem 'carrierwave-atyun', git: 'ssh://git@repo.scm.atyun.com.cn:20322/atyun-gems/carrierwave-atyun.git', branch: 'feature/fengbin-20170906-aliyun-url'
 
 gem 'doorkeeper'

@@ -19,6 +19,8 @@ class Image < ApplicationRecord
 
   belongs_to :resource, polymorphic: true
 
+  mount_uploader :picture_url, FileUploader
+
   include BaseModelConcern
 
   def self.create_by_params(params)
@@ -33,6 +35,16 @@ class Image < ApplicationRecord
     return response, model
   end
 
+  def self.upload_by_params(params)
+    image = nil
+    response = Response.rescue do |res|
+      image = Image.new
+      image.picture_url = params[:file]
+      image.user_id = params[:user]&.id
+      image.save!
+    end
+    return response, image
+  end
 
   def self.update_by_params(params)
     model = nil

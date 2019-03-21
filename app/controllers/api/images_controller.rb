@@ -14,4 +14,8 @@ class Api::ImagesController < ApplicationController
   def destroy
     @response, @model = Image.delete_by_params params
   end
+
+  def upload
+    @response, @image = Image.upload_by_params params
+  end
 end

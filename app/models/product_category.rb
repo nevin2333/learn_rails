@@ -22,11 +22,16 @@
 class ProductCategory < ApplicationRecord
   include BaseModelConcern
 
+  mount_uploader :icon, FileUploader
+
+  mount_uploader :image, FileUploader
+
   def self.create_by_params(params)
     model = nil
     response = Response.rescue do |res|
       user = params[:user]
-      create_params = params.require(:create).permit!
+      create_params = params.require(:create).permit(:name, :name_en, :pid, :path, :level, :link,
+                                                     :seq, :icon, :image, :status, :user_id)
       create_params[:user_id] = user&.id
       model = ProductCategory.new(create_params)
       model.save!
@@ -44,7 +49,13 @@ class ProductCategory < ApplicationRecord
       model = ProductCategory.find(model_id)
       res.raise_data_miss_error("修改的数据不存在") if model.blank?
 
-      update_params = params.require(:update).permit!
+      update_params = params.require(:update).permit(:name, :name_en, :pid, :path, :level, :link,
+                                                     :seq, :icon, :image, :status, :user_id)
+
+      update_params.delete(:icon) if update_params[:logo].class.name == 'String'
+
+      update_params.delete(:image) if update_params[:logo].class.name == 'String'
+
       model.update_attributes!(update_params)
     end
     return response, model
@@ -64,7 +75,7 @@ class ProductCategory < ApplicationRecord
   def self.delete_by_params(params)
     model = nil
     response = Response.rescue do |res|
-      model_id = params[:model_id]
+      model_id = params[:id]
       res.raise_error("参数缺失") if model_id.blank?
       model = ProductCategory.find(model_id)
       res.raise_data_miss_error("date doesn't exist") if model.blank?

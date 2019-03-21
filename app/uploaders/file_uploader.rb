@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FileUploader < Carrierwave::Atyun::FileUploader
+class FileUploader < CarrierWave::Uploader::Base
 
   # # 保存文件名称, 默认为name
   def name_column
@@ -33,8 +33,6 @@ class FileUploader < Carrierwave::Atyun::FileUploader
   end
 
   # 存储方式
-  # storage :file
   storage CarrierwaveSetting.storage.to_sym
-
 
 end

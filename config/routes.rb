@@ -27,7 +27,11 @@ Rails.application.routes.draw do
 
     resources :image_categories
 
-    resources :images
+    resources :images do
+      collection do
+        post :upload
+      end
+    end
 
     resources :inventory_skus
 
