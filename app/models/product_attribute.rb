@@ -20,12 +20,15 @@ class ProductAttribute < ApplicationRecord
 
   include BaseModelConcern
 
+  belongs_to :product_category
+
+  has_many :product_attribute_values
+
   def self.create_by_params(params)
     model = nil
     response = Response.rescue do |res|
-      user = params[:user]
-      create_params = params.require(:create).permit!
-      create_params[:user_id] = user&.id
+      create_params = params.require(:create).permit(:name, :name_en, :product_category_id, :required,
+                                                     :visible, :is_sku, :units, :status)
       model = ProductAttribute.new(create_params)
       model.save!
     end
@@ -42,7 +45,8 @@ class ProductAttribute < ApplicationRecord
       model = ProductAttribute.find(model_id)
       res.raise_data_miss_error("修改的数据不存在") if model.blank?
 
-      update_params = params.require(:update).permit!
+      update_params = params.require(:update).permit(:name, :name_en, :product_category_id, :required,
+                                                     :visible, :is_sku, :units, :status)
       model.update_attributes!(update_params)
     end
     return response, model
@@ -62,7 +66,7 @@ class ProductAttribute < ApplicationRecord
   def self.delete_by_params(params)
     model = nil
     response = Response.rescue do |res|
-      model_id = params[:model_id]
+      model_id = params[:id]
       res.raise_error("参数缺失") if model_id.blank?
       model = ProductAttribute.find(model_id)
       res.raise_data_miss_error("date doesn't exist") if model.blank?

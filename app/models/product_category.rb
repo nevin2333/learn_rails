@@ -26,6 +26,12 @@ class ProductCategory < ApplicationRecord
 
   mount_uploader :image, FileUploader
 
+  belongs_to :parent, class_name: 'ProductCategory', foreign_key: :pid
+
+  has_many :children, class_name: 'ProductCategory', foreign_key: :pid, dependent: :destroy
+
+  has_many :product_attributes
+
   def self.create_by_params(params)
     model = nil
     response = Response.rescue do |res|
@@ -67,7 +73,7 @@ class ProductCategory < ApplicationRecord
     response = Response.rescue do |res|
       page, per, search_param = params[:page] || 1, params[:per] || 5, params[:search]
       search_param = {} if search_param.blank?
-      models = ProductCategory.search_by_params(search_param).page(page).per(per)
+      models = ProductCategory.eager_load(product_attributes: :product_attribute_values).search_by_params(search_param).page(page).per(per)
     end
     return response, models
   end

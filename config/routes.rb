@@ -51,5 +51,9 @@ Rails.application.routes.draw do
 
     resources :system_languages
 
+    resources :product_attributes
+
+    resources :product_attribute_values
+
   end
 end
