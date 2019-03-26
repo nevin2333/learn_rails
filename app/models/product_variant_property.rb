@@ -23,8 +23,9 @@ class ProductVariantProperty < ApplicationRecord
     model = nil
     response = Response.rescue do |res|
       user = params[:user]
-      create_params = params.require(:create).permit!
-      create_params[:user_id] = user&.id
+      create_params = params.require(:create).permit(:name, :name_en, :value, :seq, :product_attribute_id, :product_attribute_value_id,
+                                                 :product_id, :product_variant_id
+      )
       model = ProductVariantProperty.new(create_params)
       model.save!
     end
@@ -41,7 +42,9 @@ class ProductVariantProperty < ApplicationRecord
       model = ProductVariantProperty.find(model_id)
       res.raise_data_miss_error("修改的数据不存在") if model.blank?
 
-      update_params = params.require(:update).permit!
+      update_params = params.require(:update).permit(:name, :name_en, :value, :seq, :product_attribute_id, :product_attribute_value_id,
+                                                     :product_id, :product_variant_id
+      )
       model.update_attributes!(update_params)
     end
     return response, model
@@ -61,7 +64,7 @@ class ProductVariantProperty < ApplicationRecord
   def self.delete_by_params(params)
     model = nil
     response = Response.rescue do |res|
-      model_id = params[:model_id]
+      model_id = params[:id]
       res.raise_error("参数缺失") if model_id.blank?
       model = ProductVariantProperty.find(model_id)
       res.raise_data_miss_error("date doesn't exist") if model.blank?

@@ -21,11 +21,19 @@
 
 class Product < ApplicationRecord
 
-  belongs_to :product_label
-  belongs_to :brand
-  belongs_to :product_measurement_unit
+  has_many :images, as: :resource
+
   has_many :product_reviews
+
+  belongs_to :brand
+
+  belongs_to :product_measurement_unit
+
+  belongs_to :product_category
+
   has_and_belongs_to_many :members
+
+  has_and_belongs_to_many :product_labels
 
   # log_in
 
@@ -35,10 +43,20 @@ class Product < ApplicationRecord
     model = nil
     response = Response.rescue do |res|
       user = params[:user]
-      create_params = params.require(:create).permit!
-      create_params[:user_id] = user&.id
+      create_params = params.require(:create).permit(:name, :name_en, :description, :link, :status,
+                                                     :art_no, :product_category_id, :product_measurement_id, :brand_id, :shop_id, :pid,
+                                                     product_label_ids: []
+      )
+      product_label_ids = create_params.delete(:product_label_ids)
+
       model = Product.new(create_params)
       model.save!
+
+      if product_label_ids.present?
+        product_labels = ProductLabel.where(id: product_label_ids)
+        model.product_labels = product_labels
+      end
+
     end
     return response, model
   end
@@ -47,14 +65,22 @@ class Product < ApplicationRecord
   def self.update_by_params(params)
     model = nil
     response = Response.rescue do |res|
-      model_id = params[:id]
-      res.raise_error("缺少参数") if model_id.blank?
+      user = params[:user]
+      model = Product.find(params[:id])
+      res.raise_data_miss_error("data missing") if model.blank?
 
-      model = Product.find(model_id)
-      res.raise_data_miss_error("修改的数据不存在") if model.blank?
+      update_params = params.require(:update).permit(:name, :name_en, :description, :link, :status,
+                                                     :art_no, :product_category_id, :product_measurement_id, :brand_id, :shop_id, :pid,
+                                                     product_label_ids: []
+      )
 
-      update_params = params.require(:update).permit!
+      product_label_ids = update_params.delete(:product_label_ids)
       model.update_attributes!(update_params)
+
+      if product_label_ids.present?
+        product_labels = ProductLabel.where(id: product_label_ids)
+        model.product_labels = product_labels
+      end
     end
     return response, model
   end
@@ -65,7 +91,7 @@ class Product < ApplicationRecord
     response = Response.rescue do |res|
       page, per, search_param = params[:page] || 1, params[:per] || 5, params[:search]
       search_param = {} if search_param.blank?
-      models = Product.search_by_params(search_param).page(page).per(per)
+      models = Product.eager_load(:images, :brand, :product_labels).search_by_params(search_param).page(page).per(per)
     end
     return response, models
   end
@@ -73,7 +99,7 @@ class Product < ApplicationRecord
   def self.delete_by_params(params)
     model = nil
     response = Response.rescue do |res|
-      model_id = params[:model_id]
+      model_id = params[:id]
       res.raise_error("参数缺失") if model_id.blank?
       model = Product.find(model_id)
       res.raise_data_miss_error("date doesn't exist") if model.blank?

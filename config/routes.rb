@@ -45,7 +45,12 @@ Rails.application.routes.draw do
 
     resources :product_reviews
 
-    resources :products
+    resources :products do
+      collection do
+        post :add_variant_property
+        get :search_variant_property
+      end
+    end
 
     resources :shops
 

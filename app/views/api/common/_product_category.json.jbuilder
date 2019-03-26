@@ -9,6 +9,7 @@ if model.present?
       render_json_attrs(json, product_attribute_value)
     end
   end
+
 else
   json.model {}
 end

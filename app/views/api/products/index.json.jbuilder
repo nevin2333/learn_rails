@@ -1,6 +1,6 @@
 json.models do
   if @models.present?
-    render_json_array_partial(json, @models, 'api/common/product', :model)
+    render_json_array_partial(json, @models, 'api/common/product', :product)
   else
     {}
   end
